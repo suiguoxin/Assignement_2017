@@ -25,8 +25,19 @@
 \section{Minimizing error}
 \subsection{Point representation}
 Suppose we have N data points $x_i, i = 1,... , N$. Please find one single point to best represent these N data points.
+
 \begin{answer}
-    Initiate LH Algorithm:
+
+For a point x, we define the cost function as $J(x)=\frac{1}{2}\sum_{i=1}^N(x-x_i)^2$.
+For the best point $x^*$, we have $\frac{dJ(x^*)}{dx^*} = 0$
+
+Then we have: \begin{align*}
+    \frac{dJ(x^*)}{dx^*} &=  \frac{\sum_{i=1}^N(x^{*2}-2x^*x_i+x_i^2)}{2dx} \\
+                     &= \sum_{i=1}^N(x^*-x_i) \\
+                     &= mx^* - \sum_{i=1}^N(x_i) \\
+                     &= 0
+     \end{align*}
+So $$x^* = \frac{1}{m}\sum_{i=1}^N(x_i)$$ which is the mean of these N points.
 \end{answer}
 
 \subsection{Line representation}
@@ -36,7 +47,27 @@ learned in high school to solve this problem. And bonus points will be given to 
 who solve this problem by matrix calculus.
 
 \begin{answer}
-    Initiate LH Algorithm:
+We define  \begin{align*}X &= \begin{bmatrix}(1, x_1)^T, (1, x_2)^T,...(1, x_N)^T \end{bmatrix},\\
+                   \vec{y} &= \begin{bmatrix} y_1, y_2,...y_N \end{bmatrix},\\
+                    \theta &= \begin{bmatrix} b, w \end{bmatrix}, \\
+                      J(x) &= \frac{1}{2}\sum_{i=1}^N(X_i-\vec{y}_i)^2
+    \end{align*}
+To minimize J, we take its derivatives with respect to $\theta$. Hence,
+ \begin{align*}\triangledown_\theta J(\theta) &= \triangledown_\theta \frac{1}{2}\sum_{i=1}^N(X_i-\vec{y}_i)^2 \\
+                          &= \triangledown_\theta \frac{1}{2}(X\theta - \vec{y})^T(X\theta - \vec{y}) \\
+                          &= \frac{1}{2} \triangledown_\theta(\theta^T X^TX\theta- \theta^TX^T\vec{y} - \vec{y}^TX\theta + \vec{y}^T\vec{y}) \\
+                          &= \frac{1}{2} \triangledown_\theta tr(\theta^T X^TX\theta- \theta^TX^T\vec{y} - \vec{y}^TX\theta + \vec{y}^T\vec{y}) \\
+                          &= \frac{1}{2} \triangledown_\theta(tr\theta^T X^TX\theta - 2tr\vec{y}X\theta) \\
+                          &= \frac{1}{2} (X^TX\theta + X^TX\theta - 2X^T\vec{y}) \\
+                          &= X^TX\theta - X^T\vec{y}
+  \end{align*}
+We set the derivatives to zero, then we have $$\theta = (X^TX)^{-1}X^T\vec{y}$$
+
+For this question,
+\begin{align*} w & = \theta[1:] \\
+               b & = \theta[0]
+ \end{align*}
+
 \end{answer}
 
 \section{Separating Boundary}
