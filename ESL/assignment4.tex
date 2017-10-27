@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+\usepackage[usenames, dvipsnames]{color}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\title{Assignment 4}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Exercise 4.2}
+Suppose that we have features $x \in \mathbb{R}^p$, a two-class response, with class sizes $N_1, N_2$, and the target coded as $-N/N_1, N/N_2$.
+
+\begin{enumerate}[(a)]
+    \item
+    Show that the LDA rule classifies to class 2 if
+        \[
+            x^T \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1) > \frac{1}{2} \hat \mu_2^T \hat \Sigma^{-1} \hat \mu_2 - \frac{1}{2} \hat \mu_1^T \hat \Sigma^{-1} \hat \mu_1 + \log \frac{N_1}{N} - \log \frac{N_2}{N}
+        \]
+    \textcolor{ForestGreen}{By using the linear discriminant functions, we classify to class 2 if $\delta_1(x) < \delta_2(x)$. we have \begin{align*}
+            \pi_k &= N_k /N \\
+            \delta_k(x) &= x^T \hat \Sigma^{-1} hat \mu_k - \frac{1}{2} \hat \mu_2^T \hat \Sigma^{-1} \hat \mu_k  + \log {\pi_k} \\
+            \delta_1(x) &< \delta_2(x)
+          \end{align*}
+          we get \begin{align*}
+            x^T \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1) &> \frac{1}{2} \hat \mu_2^T \hat \Sigma^{-1} \hat \mu_2 - \frac{1}{2} \hat \mu_1^T \hat \Sigma^{-1} \hat \mu_1 + \log \frac{N_1}{N} - \log \frac{N_2}{N}
+            \end{align*}
+        as required.
+    }
+    \item
+    Consider minimization of the least squares criterion
+        \[
+            \sum_{i=1}^N \left(y_i - \beta_0 - \beta^T x_i \right)^2
+        \]
+        Show that the solution $\hat \beta$ satisfies
+        \[
+            \left( (N-2) \hat \Sigma + \frac{N_1 N_2}{N} \hat \Sigma_B \right) \beta = N (\hat \mu_2 - \hat \mu_1 )
+        \] where $\hat \Sigma_B = (\hat \mu_2 - \hat \mu_1) (\hat \mu_2 - \hat \mu_1)^T$.
+
+    \textcolor{ForestGreen}{Let $U_i$ be the $n$ element vector with $j$-th element $1$ if the $j$-th observation is class $i$, and zero otherwise.  Then we can write our target vector $Y$ as $t_1 U_1 + t_2 U_2$, where $t_i$ are our target labels, and we have $\mathbf{1} = U_1 + U_2$.  Note that we can write our estimates $\hat \mu_1, \hat \mu_2$ as $X^T U_i = N_i \hat \mu_i$, and that $X^T Y = t_1 N_1 \hat \mu_1 + t_2 N_2 \hat \mu_2$. \\
+        By the least squares criterion, we can write \[
+            RSS = \sum_{i=1}^{N} (y_i - \beta_0 - \beta^T X)^2 = (Y - \beta_0 \mathbf{1} - X \beta)^T (Y - \beta_0 \mathbf{1} - X\beta)
+            \] Minimizing this with respect to $\beta$ and $\beta_0$, we obtain \begin{align*} 2 X^T X \beta - 2X^T Y + 2 \beta_0 X^T \mathbf{1} &= 0 \\ 2N \beta_0 - 2 \mathbf{1}^T (Y - X \beta) &= 0. \end{align*} \\
+            These equations can be solved for $\beta_0$ and $\beta$ by substitution as \begin{align*} \hat \beta_0 &= \frac{1}{N} \mathbf{1}^T (Y - X\beta) \\
+                \left(X^T X - \frac{1}{N}X^T \mathbf{1} \mathbf{1}^T X\right) \hat \beta &= X^T Y - \frac{1}{N} X^T \mathbf{1} \mathbf{1}^T Y
+            \end{align*} \\
+            The RHS can be written as \begin{align*}
+                X^T Y - \frac{1}{N} X^T \mathbf{1} \mathbf{1}^T Y &= t_1 N_1 \hat \mu_1 + t_2 N_2 \hat \mu_2 - \frac{1}{N} (N_1 \hat \mu_1 + N_2 \hat \mu_2)(t_1 N_1 + t_2 N_2) \\
+                &= \frac{N_1 N_2}{N} (t_1 - t_2) (\hat \mu_1 - \hat \mu_2)
+            \end{align*} where we use our relations for $X^T U_i$ and the fact that $\mathbf{1} = U_1 + U_2$. \\
+            Similarly, the bracketed term on the LHS of our expression for $\beta$ can be rewritten as \begin{align*}
+                X^T X = (N-2) \hat \Sigma + N_1 \hat \mu_1 \hat \mu_1^T + N_2 \hat \mu_2 \hat \mu_2^T,
+            \end{align*} and by substituting in the above and the definition of $\hat \Sigma_B$, we can write \begin{align*}
+                X^T X - \frac{1}{N}X^T \mathbf{1} \mathbf{1}^T X &= (N-2) \hat \Sigma + \frac{N_1 N_2}{N} \hat \Sigma_B
+            \end{align*} as required.\\
+            Putting this together, we obtain our required result, \[
+                \left( (N-2) \hat \Sigma + \frac{N_1 N_2}{N} \hat \Sigma_B \right) \hat \beta = \frac{N_1 N_2}{N} (t_1 - t_2)(\hat \mu_1 - \hat \mu_2),
+            \]
+            and then substituting $t_1 = -N/N_1, t_2 = N/N_2$, we obtain our required result, \[
+                \left( (N-2) \hat \Sigma + \frac{N_1 N_2}{N} \hat \Sigma_B \right) \hat \beta = N(\hat \mu_2 - \hat \mu_1)
+            \]}
+    \item
+    Hence show that $\hat \Sigma_B \beta$ is in the direction $(\hat \mu_2 - \hat \mu_1)$, and thus \[
+            \hat \beta \propto \hat \Sigma^{-1}(\hat \mu_2 - \hat \mu_1)
+        \]
+        and therefore the least squares regression coefficient is identical to the LDA coefficient, up to a scalar multiple.
+
+    \textcolor{ForestGreen}{From the fact that \[
+            \hat \Sigma_B \hat \beta = (\hat \mu_2 - \hat \mu_1)(\hat \mu_2 - \hat \mu_1)^T \hat \beta = \lambda (\hat \mu_2 - \hat \mu_1)
+            \] for some $\lambda \in \mathbb{R}$,
+    We get $\hat \Sigma_B \beta$ is in the direction of $(\hat \mu_2 - \hat \mu_1)$.
+    Since $\hat \Sigma \hat \beta$ is a linear combination of terms in the direction of $(\hat \mu_2 - \hat \mu_1)$, we can write \[
+                \hat \beta \propto \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1)
+    \] as required. }
+
+    \item
+    Show that this holds for any (distinct) coding of the two classes.
+
+    \textcolor{ForestGreen}{The result holds since our classes were arbitrary and distinct.}
+
+    \item
+    Find the solution $\hat \beta_0$, and hence the predicted values $\hat \beta_0 + \hat \beta^T x$.  Consider the following rule: classify to class 2 if $\hat y_i > 0$ and class 1 otherwise.  Show that this is not the same as the LDA rule unless the classes have equal numbers of observations.
+
+    \textcolor{ForestGreen}{
+    From (3), we have \begin{align*}
+            \hat \beta_0 &= \frac{1}{N} \mathbf{1}^T (Y - X \hat \beta) \\
+            &= \frac{1}{N}(t_1 N_1 + t_2 N_2)  - \frac{1}{N} \mathbf{1}{^T} X \hat \beta \\
+            &= -\frac{1}{N}(N_1 \hat \mu_1^T + N_2 \hat \mu_2^T) \hat \beta.
+        \end{align*}
+        From (4), we have \[
+                    \hat \beta = \lambda \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1).
+                    \]
+        for some $\lambda \in \mathbb{R}$.
+      Then the predicted value \begin{align*}
+            \hat f(x) &= \hat \beta_0 + \hat \beta^T x \\
+            &= \frac{1}{N}\left( N x^T - N_1 \hat \mu_1^T - N_2 \hat \mu_2^T \right) \hat \beta \\
+            &=  \frac{1}{N}\left( N x^T - N_1 \hat \mu_1^T - N_2 \hat \mu_2^T \right) \lambda \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1)
+        \end{align*}
+        Our classification rule is $\hat f(x) > 0$, or equivalently, \begin{align*}
+            N x^T \lambda \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1) > (N_1 \hat \mu_1^T + N_2 \hat \mu_2^T) \lambda \hat \Sigma^{-1}(\hat \mu_2 - \hat \mu_1) \\
+            x^T \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1) > \frac{1}{N} \left( N_1 \hat \mu^T_1 + N_2 \hat \mu_2^T \right) \hat \Sigma^{-1} (\hat \mu_2 - \hat \mu_1)
+        \end{align*} which is different to the LDA decision rule unless $N_1 = N_2$.
+        }
+
+\end{enumerate}
+
+\section{Exercise 4.3}
+
+Suppose that we transform the original predictors $X$ to $\hat Y$ by taking the predicted values under linear regression.  Show that LDA using $\hat Y$ is identical to using LDA in the original space.
+
+\textcolor{ForestGreen}{We have \begin{align*}
+      \hat \mu_{k}^{\hat y} &= \frac{\Sigma_{g_i=k} \hat y_i}{N}=  \frac{\Sigma_(g_i=k) \hat B^Tx_i}{N_i} = \hat B^T\hat \mu_{k^x} \\
+      \hat \mu_{l}^{\hat y} &= \frac{\Sigma_(g_i=l) \hat y_i}{N_k} =  \frac{\Sigma_(g_i=l) \hat B^Tx_i}{N_i} = \hat B^T\hat \mu_{l^x} \\
+      \hat \Sigma_{\hat y} &= \frac{\sum_{k=1}^{N} \sum_{g_i=k} \left(\hat y_i - \hat \mu_{k}^{\hat y}\right) \left(\hat y_i - \hat \mu_{k}^{\hat y}\right)^T}{N-K} \\
+      &=\hat B^T\hat\Sigma_x\hat B
+  \end{align*}
+Put these int equation (4.9), We have \begin{align*}
+      log \frac{Pr(G=k|\hat Y = \hat y)}{Pr(G=l|\hat Y = \hat y)} &= log \frac{\pi_k}{\pi_l} - \frac{1}{2}(\hat \mu_k^ x + \hat \mu_l^x)^T\hat B^T(\hat\Sigma_x\hat B)^-1 \hat B^T(\hat \mu_k^x - \hat \mu_l^x) + x^T\hat B^T(\hat\Sigma_x\hat B)^-1 \hat B^T(\hat \mu_k^x - \hat \mu_l^x)
+  \end{align*}
+  With these conditions, we can prove that \[
+    \hat B(\hat B^T\hat\Sigma_x\hat B)^-1 \hat B^T(\hat \mu_k^x - \hat \mu_l^x) = \hat\sum_{x}^{-1}(\hat \mu_k^x - \hat \mu_l^x)
+  \]
+  So we have \begin{align*}
+        log \frac{Pr(G=k|\hat Y = \hat y)}{Pr(G=l|\hat Y = \hat y)} &= log \frac{\pi_k}{\pi_l} - \frac{1}{2}(\hat \mu_k^ x + \hat \mu_l^x)^T\hat B(\hat B^T\hat\Sigma_x\hat B)^-1 \hat B^T(\hat \mu_k^x - \hat \mu_l^x) + x^T\hat B^T(\hat\Sigma_x\hat B)^-1 \hat B^T(\hat \mu_k^x - \hat \mu_l^x) \\
+        &= log \frac{\pi_k}{\pi_l} - \frac{1}{2}(\hat \mu_k^ x + \hat \mu_l^x)^T\Sigma^-1(\hat \mu_k^x - \hat \mu_l^x) + x^T\Sigma^-1(\hat \mu_k^x - \hat \mu_l^x) \\
+        &= log \frac{Pr(G=k|\hat Y = \hat x)}{Pr(G=l|\hat Y = \hat x)}
+    \end{align*}
+  So that LDA using $\hat Y$ is identical to using LDA in the original space.
+}
+\end{document}

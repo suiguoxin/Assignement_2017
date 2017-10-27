@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\title{Assignment 2}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Exercise 2.1}
+
+The assertion is equivalent to showing that \[
+\argmax_i \hat y_i = \argmin_k \| t_k - \hat y \| = \argmin_k \|\hat y - t_k \|^2
+\] .
+
+Let $\| \cdot \|$ be the Euclidean norm $\| \cdot \|_2$.  Let $k = \argmax_i \hat y_i$, with $\hat y_k = \max y_i$.
+
+Then for any $k' \neq k$ (note that $y_{k'} \leq y_k$), we have \begin{align*}
+\| y - t_{k'} \|_2^2 - \| y - t_k \|_2^2 &= y_k^2 + \left(y_{k'} - 1 \right)^2 - \left( y_{k'}^2 + \left(y_k - 1 \right)^2 \right) \\
+&= 2 \left(y_k - y_{k'}\right) \\
+&\geq 0
+\end{align*} .
+
+Thus we have \[
+\argmin_k \| t_k - \hat y \| = \argmax_i \hat y_i
+\].
+
+\section{Exercise 2.5}
+
+\begin{enumerate}[(a)]
+    \item
+    Since $y_0 = x_0^T \beta + \epsilon$ with $\epsilon$ an $N(0,\sigma^2)$ random variable, we have \begin{align*}
+    \text{Var}(y_0|x_0) = \sigma^2.
+    \end{align*}
+
+    We have \begin{align*}
+        \text{Var}_{\mathcal T}(\hat y_0) &= \text{Var}_{\mathcal T}(x_0^T \hat \beta) \\
+                &= x_0^T \text{Var}_{\mathcal T}(\hat \beta) x_0 \\
+                &= E_{\mathcal T} x_0^T \sigma^2 (\mathbf{X}^T \mathbf{X})^{-1} x_0
+        \end{align*} by conditioning (3.8) on $\mathcal T$.
+
+    Since the estimator is unbiased, \begin{align*}
+    \text{Bias}^2(\hat y_0) = 0
+    \end{align*}
+
+    So, \begin{align*}
+        EPE(x_0) &= E_{y_0 | x_0} E_{\mathcal{T}}(y_0 - \hat y_0)^2 \\
+                 &= \text{Var}(y_0|x_0) + E_{\mathcal T}[\hat y_0 - E_{\mathcal T} \hat y_0]^2 + [E_{\mathcal T} - x_0^T \beta]^2 \\
+                 &= \text{Var}(y_0 | x_0) + \text{Var}_\mathcal{T}(\hat y_0) + \text{Bias}^2(\hat y_0) \\
+                 &= \sigma^2 + E_{\mathcal T} x_0^T (\mathbf{X}^T \mathbf{X})^{-1} x_0\sigma^2 + 0^2.
+    \end{align*}
+
+    \item
+    Since $x_0^T (\mathbf{X}^T \mathbf{X})x_0$ is 1 * 1
+
+    so that \begin{align*}
+      \text trace(x_0^T (\mathbf{X}^T \mathbf{X})x_0) = x_0^T (\mathbf{X}^T \mathbf{X})x_0
+    \end{align*}
+
+    Therefore \begin{align*}
+    E_{x_0}EPE(x_0) \approx E_{x_0}x_0^T (\mathbf{X}^T \mathbf{X})x_0 + \sigma^2 \\
+                    &= E_{x_0}x_0^T Cov(X)^-1 x_0 \sigma^2 /N+ \sigma^2 \\
+                    &= trace[Cov(X)^-1 Cov(x_0)] \sigma^2 /N+ \sigma^2 \\
+                    &= \sigma^2 (p/N) + \sigma^2
+    \end{align*}
+
+\end{enumerate}
+
+\section{Exercise 2.7}
+\begin{enumerate}[(a)]
+    \item
+    In the linear regression case \[
+        \hat f(x_0) = x_0^T \beta
+    \] where $\beta = (X^T X)^{-1} X^T y$.  Then we can write \[
+        \hat f(x_0) = \sum_{i=1}^N \left( x_0^T (X^T X)^{-1} X^T \right)_i y_i.
+    \]  Hence \[
+        \ell_i(x_0; \mathcal X) = \left( x_0^T (X^T X)^{-1} X^T \right)_i.
+    \]
+
+    In the $k$-nearest-neighbour case, we have \[
+        \hat f(x_0) = \sum_{i=1}^N \frac{y_i}{k} \mathbf{1}_{x_i \in N_k(x_0)}
+    \] where $N_k(x_0)$ represents the set of $k$-nearest-neighbours of $x_0$.
+    Hence, \[
+        \ell_i(x_0; \mathcal X) = \frac{1}{k} \mathbf{1}_{x_i \in N_k(x_0)}
+    \]
+    \item
+    \begin{align*}
+    E_{\mathcal Y | \mathcal X} \left( f(x_0) - \hat f(x_0) \right)^2
+    &= f(x_0)^2 - 2 f(x_0)E_{\mathcal Y | \mathcal X}\hat f(x_0) + E_{\mathcal Y | \mathcal X} \left(\hat f(x_0) \right)^2 \\
+    &= \left(f(x_0) - E_{\mathcal Y | \mathcal X} \left( \hat f(x_0) \right) \right) ^2 + E_{\mathcal Y | \mathcal X} \left(\hat f(x_0) \right)^2 - \left( E_{\mathcal Y | \mathcal X} \left(\hat f(x_0) \right) \right)^2 \\
+    &= (bias)^2 + Var(\hat f(x_0))
+    \end{align*}
+    \item
+    \begin{align*}
+    E_{\mathcal Y , \mathcal X} \left( f(x_0) - \hat f(x_0) \right)^2
+    &= f(x_0)^2 - 2 f(x_0)E_{\mathcal Y , \mathcal X}\hat f(x_0) + E_{\mathcal Y , \mathcal X} \left(\hat f(x_0) \right)^2 \\
+    &= \left(f(x_0) - E_{\mathcal Y , \mathcal X} \left( \hat f(x_0) \right) \right) ^2 + E_{\mathcal Y , \mathcal X} \left(\hat f(x_0) \right)^2 - \left( E_{\mathcal Y , \mathcal X} \left(\hat f(x_0) \right) \right)^2 \\
+    &= (bias)^2 + Var(\hat f(x_0))
+    \end{align*}
+    \item
+    The question doesn't make sense.
+
+\end{enumerate}
+
+\end{document}

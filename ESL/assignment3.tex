@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\title{Assignment 3}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Exercise 3.5}
+
+Rewrite function (3.85) as  \[
+    L(\beta^c) = \sum_{i=1}^{N}\left(y_i - \left(\beta_0^c - \sum_{j=1}^{p} \bar x_j \beta_j^c \right) - \sum_{j=1}^p x_{ij} \beta_j^c \right)^2 + \lambda \sum_{j=1}^p {\beta_j^2}^2
+    \]
+Note that making the substitutions \begin{align*}
+    \beta_0 &\mapsto \beta_0^c - \sum_{j=1}^p \hat x_j \beta_j \\
+    \beta_j &\mapsto \beta^c_j, j = 1, 2, \dots, p
+\end{align*} that $\hat \beta$ is a minimiser of the original ridge regression equation if $\hat \beta^c$ is a minimiser of our modified ridge regression.
+
+The modified solution merely has a shifted intercept term, and all other coefficients remain the same.
+
+We have the same result in lasso regression as the first parts of the two functions are the same.
+
+\section{Exercise 3.6}
+
+Since $\beta \sim N(0, \tau \mathbf{I})$, we have \[
+p(\beta) = C_1 exp \left( -\frac{\| \beta \| ^2 }{2\tau ^2}\right) \\
+\]
+
+Since $y \sim N(X \beta, \sigma^2 \mathbf{I})$, we have \[
+p(y|\beta) = C_2 exp \left( -\frac{\|y-X \beta \| ^2 }{2\sigma ^2}\right) \\
+\]
+
+The posterior probability satisfies $p(y|\beta)p(\beta) = p(\beta|y)p(y)$, so \[
+p(\beta|y) = C_3 exp \left( -\frac{\|y-X \beta \| ^2 + (\sigma^2/\tau^2)\| \beta \| ^2}{2\sigma ^2}\right)
+\]
+
+The negative log-posterior density of $\beta$,\[
+    -log(p(\beta|y))= \|y-X \beta \| ^2 + (\sigma^2/\tau^2)\| \beta \| ^2 + C_4
+\]
+
+This is equal to the expession in curly braces in (3.41), with $\lambda = \sigma^2/\tau^2$.
+
+Since the distribution is Gaussianm it is also the posterior mean.
+
+\section{Exercise 3.7}
+
+From exercise 3.6, we know the negative log-posterior density of $\beta$,\[
+    -log(p(\beta|y))= \|y-X \beta \| ^2 + (\sigma^2/\tau^2)\| \beta \| ^2 + C_4
+\]
+, where $C_4 = -logC_3 - log(2\sigma^2) $
+
+So it's proportional to the item given in this exercise when $C_4 = 0$.
+
+\end{document}
