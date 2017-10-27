@@ -1,0 +1,294 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{booktabs}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newenvironment{answer}{\par\color{ForestGreen}}{\par}
+
+\title{Assignment 2}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{First Half}
+
+\begin{enumerate}
+    \item
+    Find a mixed strategy Nash equilibrium using Lemke-Howson algorithm for the game below:
+    \begin{table}[h!]
+      \centering
+      \begin{tabular}[t]{ccc}
+        \toprule
+        events & opera & football \\
+        \midrule
+        opera & 4,2 & 3,1 \\
+        \hline
+        football & 1,3 & 2,4 \\
+        \bottomrule
+     \end{tabular}
+   \end{table}
+\begin{answer}
+    Initiate LH Algorithm:
+
+    $$A = \begin{pmatrix}
+          4 & 3 \\
+          1 & 2
+        \end{pmatrix},
+    B = \begin{pmatrix}
+          2 & 1 \\
+          3 & 4
+        \end{pmatrix}, L(x)=\left\{1,2\right\}, L(y)=\left\{3,4\right\}$$
+\begin{table}[!htb]
+  \begin{answer}
+\begin{minipage}[t]{.5\textwidth}
+\centering
+    \begin{tabular}[t]{cccccc}
+      \toprule
+      P & x1 & x2 & t3 & t4 & = \\
+      \midrule
+      3 & 2 & 3 & 1 & 0 & 1 \\
+      \hline
+      4 & 1 & 4 & 0 & 1 & 1 \\
+      \bottomrule
+    \end{tabular}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\centering
+    \begin{tabular}[t]{llllll}
+      \toprule
+      Q & r1 & r2 & y3 & y4 & = \\
+      \midrule
+      1 & 1 & 0 & 4 & 3 & 1 \\
+      \hline
+      2 & 0 & 1 & 1 & 2 & 1 \\
+      \bottomrule
+    \end{tabular}
+\end{minipage}
+\end{answer}
+\end{table}
+
+Second step:
+
+$$L(x)=\left\{2,3\right\}, L(y)=\left\{3,4\right\}$$
+\begin{table}[!htb]
+\begin{answer}
+\begin{minipage}[t]{.5\textwidth}
+\centering
+\begin{tabular}[t]{cccccc}
+  \toprule
+  P & x1 & x2 & t3 & t4 & = \\
+  \midrule
+  3 & 2 & 3 & 1 & 0 & 1 \\
+  \hline
+  4 & 0 & 5 & -1 & 2 & 1 \\
+  \bottomrule
+\end{tabular}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\centering
+\begin{tabular}[t]{llllll}
+  \toprule
+  Q & r1 & r2 & y3 & y4 & = \\
+  \midrule
+  1 & 1 & 0 & 4 & 3 & 1 \\
+  \hline
+  2 & 0 & 1 & 1 & 2 & 1 \\
+  \bottomrule
+\end{tabular}
+\end{minipage}
+\end{answer}
+\end{table}
+
+Third step:
+
+$$L(x)=\left\{2,3\right\}, L(y)=\left\{1,4\right\}$$
+\begin{table}[!htb]
+\begin{answer}
+\begin{minipage}[t]{.5\textwidth}
+\centering
+\begin{tabular}[t]{cccccc}
+  \toprule
+  P & x1 & x2 & t3 & t4 & = \\
+  \midrule
+  3 & 2 & 3 & 1 & 0 & 1 \\
+  \hline
+  4 & 0 & 5 & -1 & 2 & 1 \\
+  \bottomrule
+\end{tabular}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\centering
+\begin{tabular}[t]{llllll}
+  \toprule
+  Q & r1 & r2 & y3 & y4 & = \\
+  \midrule
+  1 & 1 & 0 & 4 & 3 & 1 \\
+  \hline
+  2 & -1 & 4 & 0 &5 & 3 \\
+  \bottomrule
+\end{tabular}
+\end{minipage}
+\end{answer}
+\end{table}
+
+So we have $x_1^*= 1, x_2^*= 0, y_1^*= 1, y_2^*= 0$
+
+\end{answer}
+    \item
+    Find a mixed strategy Nash equilibrium using Linear Programming for the game below. Also compare your solution with one obtained using Lemke-Howson algorithm.
+    \begin{table}[h!]
+      \centering
+      \begin{tabular}{ccc}
+        \toprule
+        events & opera & football\\
+        \midrule
+        opera & 4,-4 & -3,3\\
+        \hline
+        football & -1,1 & 2,-2\\
+        \bottomrule
+     \end{tabular}
+    \end{table}
+
+    \begin{answer}
+        We have:
+
+        $$A = \begin{pmatrix}
+              4 & -3 \\
+              -1 & 2
+            \end{pmatrix}$$
+
+        Set the max value as v :
+
+       $$
+        \begin{cases}
+          4x_1 - x_2 \geq v \\
+          -3x_1 + 2x_2 \geq v
+       \end{cases}
+        \rightarrow
+        \begin{cases}
+          4x_1/v - x_2/v \geq 1 \\
+          -3x_1/v + 2x_2/v \geq 1
+       \end{cases}
+       $$
+
+       Suppose $p_1 = x_1/v, p_2 = x_2 /v \rightarrow p_1 + p_2 = 1/v$
+
+       Minimize $1/v \rightarrow
+       \begin{cases}
+         x_1 = 3/10 \\
+         x_2 = 7/10 \\
+         v = 1/2
+      \end{cases}
+       $
+
+       Set the min value as w :
+
+      $$
+       \begin{cases}
+         4y_1 - 3y_2 \leq w \\
+         -y_1 + 2x_2 \leq w
+      \end{cases}
+       \rightarrow
+       \begin{cases}
+         4y_1/w - 3y_2/w \leq 1 \\
+         -y_1/w + 2x_2/w \leq 1
+      \end{cases}
+      $$
+
+      Suppose $q_1 = y_1/w, q_2 = y_2 /w \rightarrow q_1 + q_2 = 1/w$
+
+      Minimize $1/w \rightarrow
+      \begin{cases}
+        y_1 = 1/2 \\
+        y_2 = 1/2 \\
+        w = 1/2
+     \end{cases}
+      $
+
+    \end{answer}
+
+    \item
+    Implement Lemke-Howson Algorithm (and to solve the above problem, using Pythen or Java). Test it using the above problems.
+
+    \textcolor{ForestGreen}{The result holds since our classes were arbitrary and distinct.}
+
+\end{enumerate}
+
+\section{Second Half}
+Let f (·) be continuous. Is there always a fixed point in the following? Prove it or give a counter example.
+
+\begin{enumerate}
+    \item
+    Continuous Fixed Point $f (x) : [0, 1] \rightarrow [0, 4], f (0) = 1, f(1) = 3.$
+
+    \begin{answer}
+      No.
+
+      Couter example: $f(x) = 2x+1$
+    \end{answer}
+
+    \item
+    Continuous Fixed Point $f (x) : [0, 1] \rightarrow [0, 1], f (0) > 0, f(1) < 1.$
+
+    \begin{answer}
+      Yes.
+
+      Construct a function $g(x) = f(x) - x$, then we have $g(0)\le0, g(1)\le0$.
+
+      So there is a point $x^* \subset (0,1)$ that $g(x^*) = 0$ since g is continuous.
+
+      $x^* $is the fixed point.
+    \end{answer}
+
+    \item
+    Continuous Fixed Point $f (x ) : [0, 1] \rightarrow [1/3, 1/2]$
+
+    \begin{answer}
+      Yes.
+
+      Construct a function $g(x) = f(x) - x$, then we have $g(x) \subset (-1/2, 1/2) $.
+
+      So there is a point $x^* \subset (0,1)$ that $g(x^*) = 0$ since g is continuous.
+
+      $x^* $is the fixed point.
+    \end{answer}
+
+    \item
+    Continuous Fixed Point $f (x ) : [0, 1) \rightarrow  [0, 1).$
+
+    \begin{answer}
+      Yes.
+
+      Construct a function $g(x) = f(x) - x$, then we have $g(x) \subset (-1, 1) $.
+
+      So there is a point $x^* \subset (0,1)$ that $g(x^*) = 0$ since g is continuous.
+
+      $x^* $is the fixed point.
+    \end{answer}
+
+    \item
+    Continuous Fixed Point $f (x ) : [0, \infty) \rightarrow  [0, \infty)$
+
+    \begin{answer}
+      Yes.
+
+      Construct a function $g(x) = f(x) - x$, then we have $g(x) \subset (-\infty, \infty) $.
+
+      So there is a point $x^* \subset (0,\infty)$ that $g(x^*) = 0$ since g is continuous.
+
+      $x^* $is the fixed point.
+    \end{answer}
+\end{enumerate}
+
+\end{document}
