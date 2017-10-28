@@ -10,7 +10,7 @@ def lcm(list):
 
 
 # initiate LH Algorithm
-def init(A, B, m, n):
+def init(A, B):
     Lx = []
     Ly = []
     for i in range(m):
@@ -51,29 +51,30 @@ def init(A, B, m, n):
 
 
 def singularize(P, su, s):
+    muls = []
     for i in range(len(P)):
-        a = P[i][su]
-        if a != 0:
-            for j in range(len(P[0])):
-                P[i][j] = int(P[i][j] * s / abs(a))
-    return P
+        mul = s / P[i][su]
+        muls.append(mul)
+        for j in range(len(P[0])):
+            P[i][j] = int(P[i][j] * mul)
+    return muls
 
 
-def regularize(P, su, s):
+def regularize(P, su, muls):
     mi = 0
-    mm = 9999
+    mm = 999999
     for i in range(len(P)):
-        if P[i][m + n] < mm:
+        if abs(P[i][m + n]) < mm:
             mi = i
-            mm = P[i][m + n]
+            mm = abs(P[i][m + n])
     for i in range(len(P)):
         if i != mi:
+            mul = P[i][su] / P[mi][su]
             for j in range(m + n + 1):
-                P[i][j] = P[i][j] - P[mi][j]
+                P[i][j] = P[i][j] -   mul * P[mi][j]
         else:
-            times = s / B[su][i]
             for j in range(m + n + 1):
-                P[i][j] /= times
+                P[i][j] /= muls[i]
     return
 
 
@@ -96,11 +97,11 @@ def transform(Lx, Ly):
     x = [0] * m
     y = [0] * n
     for idx, val in enumerate(Lx):
-        if val <= m:
-            y[idx] = 1
+        if val > m:
+            y[val - m - 1] = 1
     for idx, val in enumerate(Ly):
         if val <= m:
-            x[idx] = 1
+            x[val - 1] = 1
 
     print '********* result ***********'
     print('Lx:'), Lx
@@ -124,7 +125,7 @@ def finish_condition(Lx, Ly):
 
 
 def lemke_howson(A, B):
-    Lx, Ly, P, Q = init(A, B, m, n)
+    Lx, Ly, P, Q = init(A, B)
 
     su = 0
     fl = 0  # operation in P or in Q
@@ -134,8 +135,8 @@ def lemke_howson(A, B):
             s = lcm([row[su] for row in P])
             s = abs(s)
 
-            singularize(P, su, s)
-            regularize(P, su, s)
+            muls = singularize(P, su, s)
+            regularize(P, su, muls)
 
             Lx = calculate_lx(P)
             print ('Lx:'), Lx
@@ -146,8 +147,8 @@ def lemke_howson(A, B):
             s = lcm([row[su] for row in Q])
             s = abs(s)
 
-            singularize(Q, su, s)
-            regularize(Q, su, s)
+            muls = singularize(Q, su, s)
+            regularize(Q, su, muls)
             print('Q :'), Q
 
             Ly = calculate_lx(Q)
@@ -159,12 +160,13 @@ def lemke_howson(A, B):
     transform(Lx, Ly)
 
 
-# A = [[4, 3], [1, 2]]
-# B = [[2, 1], [3, 4]]
+#A = [[4, 3], [1, 2]]
+#B = [[2, 1], [3, 4]]
 
 A = [[12, 8, 6], [8, 12, 8]]
 B = [[5, 5, 8], [1, 8, 4]]
 
 m = len(A)
 n = len(A[0])
+
 lemke_howson(A, B)
