@@ -79,17 +79,73 @@ two classes have the same priors)
 \subsection{Line boundary}
 Suppose $N(x|\mu_1, \Sigma_1) = \frac{1}{{2\pi|\Sigma_1|}^{1/2}}exp{(-\frac{1}{2} (x - \mu_1)^T{\Sigma_1}^{-1}(x - \mu_1)}$, where
 $$\mu_1 = \begin{bmatrix}1 \\ 1\end{bmatrix} $$
-and $$\Sigma_1 = \begin{vmatrix}1 & 2 \\ 3 &4\end{vmatrix} $$
+and $$\Sigma_1 = \begin{vmatrix}1 & 0 \\ 1 &0\end{vmatrix} $$
 Please find all settings of $\mu_2$ and $\Sigma_2$ that makes a straight line boundary between the two classes.
 \begin{answer}
-    Initiate LH Algorithm:
+    Define $x = \begin{bmatrix} x_1 \\ x_2\end{bmatrix}, \mu_2 = \begin{bmatrix} \mu_{21} \\ \mu_{22}\end{bmatrix},\Sigma_2 = \begin{vmatrix} a, c \\ c, b\end{vmatrix}, \rho=\frac{c}{\sqrt{ab}}$
+
+    Then we have:
+    $$f_2(x|\mu_2,\Sigma_2) = (2\pi ab\sqrt{1-\rho^2})^{-1}exp[-\frac{1}{2(1-\rho^2)}\left(\frac{(x_1-\mu_{21})^2}{a} - \frac{2\rho(x_1-\mu_{21})(x_2-\mu_{22})}{\sqrt{ab}} + \frac{(x_2-\mu_{22})^2}{b}\right)]$$
+    and
+    $$f_1(x|\mu_1,\Sigma_1) = (2\pi)^{-1}exp[-\frac{1}{2}\left((x_1-1)^2 + (x_2-1)^2)\right)]$$
+
+    The equation of the decision boundary between these two classes is :
+    \begin{align*} f_1(x|\mu_1,\Sigma_1) - f_2(x|\mu_2,\Sigma_2)  & = Ax_1^2 + Bx_1x_2 + Cx_2^2 + Dx_1 + Ex_2 + F \\
+                    & = 0
+     \end{align*}
+
+     where \begin{align*} A & = 1 - \frac{1}{(1-\rho^2)a^2}  \\
+                          B & = \frac{2\rho}{(1-\rho^2)\sqrt{ab}}  \\
+                          C & = 1 - \frac{1}{(1-\rho^2)b^2}  \\
+                          D & = -2 - \frac{1}{(1-\rho^2)}\left(\frac{-2\mu_{21}}{a^2} + \frac{2\rho\mu_{22}}{\sqrt{ab}}\right) \\
+                          E & = -2 - \frac{1}{(1-\rho^2)}\left(\frac{-2\mu_{22}}{b^2} + \frac{2\rho\mu_{21}}{\sqrt{ab}}\right) \\
+                          F & = 2 - \frac{1}{(1-\rho^2)}\left(\frac{\mu_{21}^2}{a^2} + \frac{2\rho\mu_{21}\mu_{22}}{\sqrt{ab}} + \frac{\mu_{22}^2}{b^2}\right)
+      \end{align*}
+
+      The seperating boudary is a straight line when $A = B = C = 0$, that is to say:
+            $$\begin{cases} 1 - \frac{1}{(1-\rho^2)a^2}  & = 0\\
+                           \frac{2\rho}{(1-\rho^2)\sqrt{ab}} & = 0 \\
+                           1 - \frac{1}{(1-\rho^2)b^2}  &= 0
+       \end{cases}$$
+
+       Then we have $$\begin{cases} a & = 1  \\
+                                    b & = 1 \\
+                                 \rho & = 0 \\
+                                    c & = 0 \\
+                             \Sigma_2 & = \begin{vmatrix} 1, 0 \\ 0, 1\end{vmatrix}
+  \end{cases}$$
+
+  We get the conclusion that the seperating boudary is a straight line when $\Sigma_2 = \begin{vmatrix} 1, 0 \\ 0, 1\end{vmatrix}$, that means $x_1$ and $x_2$ are conditionally independent unit-variance normal random variables.
 \end{answer}
 
 \subsection{Other forms of boundary}
 Discuss the conditions where the separating boundaries between the two classes are parabola,
 hyperbola, ecllipse and line. Tips: you may want to refer to \url{ https://en.wikipedia.org/wiki/Conic_section}.
 \begin{answer}
-    Initiate LH Algorithm:
+
+\begin{enumerate}
+    \item The seperating boundary is parabola when $\begin{cases} AC & = 0  \\
+                                                     A + C & \neq 0  \\
+                                                         B & = 0
+                                          \end{cases}$
+
+   Then we have $\Sigma_2 = \begin{vmatrix} 1, 0 \\ 0, b(b\neq1)\end{vmatrix} $
+   or $\Sigma_2 = \begin{vmatrix} a(a\neq1), 0 \\ 0, 1\end{vmatrix} $
+
+   \item The seperating boundary is hyperbola when $\begin{cases} AC & < 0  \\
+                                                         B & = 0
+                                          \end{cases}$
+
+   Then we have $\Sigma_2 = \begin{vmatrix} a, 0 \\ 0, b\end{vmatrix} $ where $(a-1)(b-1) < 0$
+
+  \item The seperating boundary is eclipse when $\begin{cases} AC & > 0  \\
+                                                         B & = 0
+                                          \end{cases}$
+
+   Then we have $\Sigma_2 = \begin{vmatrix} a, 0 \\ 0, b\end{vmatrix} $ where $(a-1)(b-1) > 0$
+
+   \item The seperating boundary is line when $A = B = C = 0$, as we have discussed in the last question.
+\end{enumerate}
 \end{answer}
 
 \subsection{Optional summary work}
