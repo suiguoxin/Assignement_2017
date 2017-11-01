@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newenvironment{answer}{\par\color{ForestGreen}}{\par}
+
+\title{CS28010 Homework 2}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Minimizing error pt2}
+\subsection{Principal component analysis}
+Suppose we have $N$ data points $x_i , i = 1,... , N$ , where each $x_i$ is a d-dimensional vector
+$x_i = [x_{i,1}, x_{i,2},... x_{i,d}]^T$. You are required find a single line that best represents these $N$
+points. We assume $\mu = \frac{1}{N} \sum_{i=1}^Nx_i = 0$.
+And we use $w$ to denote the direction of the line and $||w|| = 1$. Please find $w$ using the data. (Knowledge about eigen vector, matrix derivatives might be required to finish this problem)
+\begin{answer}
+The length of the projection of $x_i$ onto the line is given by $x_i^Tw$. The line that best repsesents these $N$ points maximizes the variance of the projections.
+
+So, we look for the $w$ so as to maximize : \begin{align*}
+    \frac{1}{N} \sum_{i=1}^N({x_i}^Tw)^2 &= \frac{1}{N} \sum_{i=1}^N(w^Tx_i{x_i}^Tw) \\
+                                         &= w^T\left(\frac{1}{N} \sum_{i=1}^N(x_i{x_i}^T)\right)w
+     \end{align*}
+The maximization of this subject to $||w|| = 1$ gives the principal eigenvector of $\Sigma = \frac{1}{N} \sum_{i=1}^N(x_i{x_i}^T)$, which is just the empirical covariance matrix of the data.
+
+\end{answer}
+
+\section{Factor analysis}
+\subsection{Distribution of observed data}
+Suppose we observe $N$ data points $x_i , i = 1,... , N$ , where each $x_i$ is a d-dimensional vector
+$x_i = [x_{i,1}, x_{i,2},... x_{i,d}]^T$.
+In order to explain the inner relationship of these data,
+we specify some factors $y_i , i = 1,... , N$ ,
+where each $y_i$ is a m-dimensional vector $y_i = [y_{i,1}, y_{i,2},... y_{i,m}]^T$.
+We denote the linear relationship between $x_i$ and $y_i$ to be $x_i = Ay_i + \epsilon_i $ ,
+where $A_{d*m}$ is a matrix
+and $ \epsilon_i $ is the error term.
+Suppose $y \sim \mathcal{N} (\mu, \Lambda)$, $\epsilon \sim \mathcal{N} (0, \sigma^2I), E(y\epsilon^T ) = 0$. Please compute the marginal distribution of observed data
+$q(x)$ and the conditional distribution $q(x|y)$.
+\begin{answer}
+
+\end{answer}
+
+\section{Optional summary work}
+Please use your words to explain in the settings above, how many matrix $A$ satisfy the condition $x = Ay + \epsilon $.
+
+\begin{answer}
+    In probability theory
+\end{answer}
+
+
+
+\end{document}
