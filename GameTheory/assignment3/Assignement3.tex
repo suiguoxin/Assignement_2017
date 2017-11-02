@@ -12,6 +12,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \newenvironment{answer}{\par\color{ForestGreen}}{\par}
+\setlength\parindent{0pt}
 
 \title{Assignment 3}
 \author{Guoxin SUI}
@@ -28,13 +29,21 @@
     Maximum Market Equilibrium Dynamics: Starting at truthful biddings,
     how would the player change their bids? Assuming best response, would the process converge?
     \item
-    Prove or Disprove that the maximum revenue market equilibrium is a symmetric Nash Equilibrium in GSP.
+    Prove or disprove that the maximum revenue market equilibrium is a symmetric Nash Equilibrium in GSP.
     \item
     What is the maximum revenue symmetric Nash equilibrium in GSP?
 \end{enumerate}
 
 \begin{answer}
-  Yes.
+Question 1: \\
+The players will always try to increase his utility. There are two possibilities :
+  \begin{itemize}
+  \item give higher bid and get more quality ;
+  \item give lower bid and pay less.
+  \end{itemize}
+  When there are more than one items of different qualities, the process doesn't converge.
+
+  When there are only one item or all the items have the same quality, the process converge. For the market of N bidders and M items, the bids of the first M bidders converge to $v_{M+1}$
 \end{answer}
 
 \subsection{Do two of the followings:}
@@ -44,16 +53,41 @@
     \item
     Give Examples where maximum VCG sells only one item. extend it to $k = 2,3,... ,m$ items.
     \item
-    Call an case where only one item is sold VCG1, VCGk for k items where $k = 2,3,... ,m.$ How to compute them?
+    Call an case where only one item is sold $VCG_1, VCG_k$ for k items where $k = 2,3,... ,m.$ How to compute them?
     \item
-    Compare maximum VCG revenue to $VCG_1, VCG_2,... ,VCG_k$. Derive the best bound you may obtain.
+    Compare maximum $VCG$ revenue to $VCG_1, VCG_2,... ,VCG_k$. Derive the best bound you may obtain.
     \item
-    Design a truthful mechanism that derives a best bound in revenue against that of VCG1.
+    Design a truthful mechanism that derives a best bound in revenue against that of $VCG_1$.
     Compare your revenue against that of $VCG_1$. Extend to $VCG_k$, $k = 1,2,... ,m$.
 \end{enumerate}
 
 \begin{answer}
-  Yes.
+\begin{itemize}
+\item Question 2: \\
+For the case k = 1, we have example :
+$$ N = \begin{Bmatrix}
+  11, 7, 3, 2, 1
+\end{Bmatrix}, M = \begin{Bmatrix}
+  5, 1
+\end{Bmatrix}  $$
+where we get the maximazation at $VCG(1,1) = 35$ \\
+
+It can be extended by adding $v_1, q_1$ to to the vertors every time:\\
+For example, if k = 2 ,  $N = \begin{Bmatrix}
+  v_1, 11, 7, 3, 2, 1
+\end{Bmatrix}, M = \begin{Bmatrix}
+  q_1, 5, 1
+\end{Bmatrix}$ where $v_1 > 11$ and $q_1 > 5$.
+
+\item Question 3: \\
+To extend the conclusion, for maximum VCG, we have $$VCG(i, j_i) = VCG(i-1, j_{i-1}) + q_{j_i}[iv_{i+1} - (i-1)v_i]$$
+If it sells only k items, we have $$VCG(k+1, j_{k+1}) = VCG(k, j_k) + q_{j_{k+1}}[(k+1)v_{k+2} - kv_{k+1}] < VCG(k, j_k)$$
+Which gives the condition : \begin{itemize}
+  \item $iv_{i+1} - (i-1)v_i > 0 $ for $i <= k$
+  \item $(k+1)v_{k+2} - kv_{k+1} < 0 $ if there are more than k items
+\end{itemize}
+
+\end{itemize}
 \end{answer}
 
 \end{document}
