@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{booktabs}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newenvironment{answer}{\par\color{ForestGreen}}{\par}
+\setlength\parindent{0pt}
+
+\title{Question of L4 for Midterm}
+\author{Guoxin SUI}
+\date{2017 Fall}
+
+\begin{document}
+\maketitle
+
+\section{Linear Utility Market Equilibrium}
+\paragraph{Q1.1:}
+Given a market where we have :
+$3$ markets agents $ M = \begin{Bmatrix} 1,2,3 \end{Bmatrix}$,
+5 goods at the market $ N = \begin{Bmatrix} 1,2,3,4,5 \end{Bmatrix}$.
+The initial endowment of the agents
+$ w^1 = \begin{pmatrix} 0, 2, 0, 1, 0 \end{pmatrix},
+w^2 = \begin{pmatrix} 0, 2, 1, 0, 1 \end{pmatrix},
+w^3 = \begin{pmatrix} 1, 0, 0, 3, 0 \end{pmatrix}$,
+$u_1(x^1) = 3x_1^1, u_2(x^2) = 4x_2^2 + 2x_3^2, u_3(x^3) = 2x_2^3 + x_4^3$.
+Given $p = (p_1,p_2,...,p_5)$, give the expressions to get $x^*$, the optimal x for every agent.
+Explain the property: If $x_j^{i*} >0$, then $\forall t \ \&  \ p_t > 0: \frac{u_j^i}{p_j} \ge \frac{u_t^i}{p_t}$
+\paragraph{Q1.2:}
+Do nomalization and atomization of the market. Why the demand graph is non-zero indegree ?
+\paragraph{Q1.3:}
+What are the differences betwee the initial setting of "Linear Utility Market" and "Fisher Market"?
+\begin{answer}
+  \paragraph{Q1.1:}
+  \begin{itemize}
+    \item Budget constraint :
+
+    $px^i \leq pw^i $
+    \item Individual optimality :
+
+    $x^{i*} \in argmax \{u_i(x^i) : px^i \leq pw^{iT},x^i \geq 0 \}$,
+    where
+    $u^1 = \begin{bmatrix} 3, 0, 0, 0, 0 \end{bmatrix}^T$
+    $u^2 = \begin{bmatrix} 0, 4, 2, 0, 0 \end{bmatrix}^T$
+    $u^3 = \begin{bmatrix} 0, 2, 1, 0, 0 \end{bmatrix}^T$
+
+    \item Market clearance:
+
+    $\sum_{i\in M} x^i \leq \sum_{i\in M} w^{iT}$
+  \end{itemize}
+
+  To get the maximum utility, the agent will put his money on the good where he get most utility with every unit of money since his budget constraints to the equation $px^i \leq pw^i $. So if $x_j^{i*} >0$, that means $\frac{u_j^i}{p_j}$ is the maximum.
+
+  \paragraph{Q1.2:}
+  \begin{itemize}
+    \item Normalization:
+    \begin{itemize}
+      \item Everything is owned by someone: Condition fulfilled.
+      \item Everything is liked by someone: Elimite the $5_{th}$ good.
+      Then we have 4 goods at the market $ N = \begin{Bmatrix} 1,2,3,4 \end{Bmatrix}$.
+      The initial endowment of the agents
+      $ w^1 = \begin{pmatrix} 0, 2, 0, 1 \end{pmatrix},
+      w^2 = \begin{pmatrix} 0, 2, 1, 0 \end{pmatrix},
+      w^3 = \begin{pmatrix} 1, 0, 0, 3 \end{pmatrix}$,
+      \item Normalization: For the $2_{nd}$ and $4_{th}$ good, divide by total amount.
+      The initial endowment of the agents
+      $ w^1 = \begin{pmatrix} 0, 1/2, 0, 1/4 \end{pmatrix},
+      w^2 = \begin{pmatrix} 0, 1/2, 1, 0 \end{pmatrix},
+      w^3 = \begin{pmatrix} 1, 0, 0, 3/4 \end{pmatrix}$,
+    \end{itemize}
+
+    \item Atomization:
+    \begin{itemize}
+      \item Every agent owns one item : replace agent 1, 2, 3 by $ 1_1, 1_2, 2_1, 2_2, 3_1, 3_2$,, then we have
+      $6$ markets agents $ M = \begin{Bmatrix} 1_1, 1_2, 2_1, 2_2, 3_1, 3_2 \end{Bmatrix}$,
+      where
+     $\begin{cases}
+        u^{1_1} = \begin{bmatrix} 3, 0, 0, 0\end{bmatrix}^T \\
+        u^{1_2} = \begin{bmatrix} 3, 0, 0, 0\end{bmatrix}^T \\
+        u^{2_1} = \begin{bmatrix} 0, 4, 2, 0\end{bmatrix}^T \\
+        u^{2_2} = \begin{bmatrix} 0, 4, 2, 0\end{bmatrix}^T \\
+        u^{3_1} = \begin{bmatrix} 0, 2, 0, 1\end{bmatrix}^T \\
+        u^{3_2} = \begin{bmatrix} 0, 2, 0, 1\end{bmatrix}^T
+      \end{cases} $
+
+      The initial endowment of the agents
+      $\begin{cases}
+         w^{1_1} = \begin{pmatrix} 0, 2, 0, 0 \end{pmatrix} \\
+         w^{1_2} = \begin{pmatrix} 0, 0, 0, 1 \end{pmatrix} \\
+         w^{2_1} = \begin{pmatrix} 0, 2, 0, 0 \end{pmatrix} \\
+         w^{2_2} = \begin{pmatrix} 0, 0, 1, 0 \end{pmatrix} \\
+         w^{3_1} = \begin{pmatrix} 1, 0, 0, 0 \end{pmatrix} \\
+         w^{3_2} = \begin{pmatrix} 0, 0, 0, 3 \end{pmatrix}
+       \end{cases} $
+
+      \item Every item is owned by one agent: Rename the same type of items own by different agents and equalize the utilities by an agent on them, then we have
+      6 goods at the market $ N = \begin{Bmatrix} 1,2_1, 2_2, 3_1, 3_2, 4 \end{Bmatrix}$.
+      $\begin{cases}
+         w^{1_1} = \begin{pmatrix} 0, 2, 0, 0, 0, 0 \end{pmatrix} \\
+         w^{1_2} = \begin{pmatrix} 0, 0, 0, 0, 1, 0 \end{pmatrix} \\
+         w^{2_1} = \begin{pmatrix} 0, 0, 2, 0, 0, 0 \end{pmatrix} \\
+         w^{2_2} = \begin{pmatrix} 0, 0, 0, 1, 0, 0 \end{pmatrix} \\
+         w^{3_1} = \begin{pmatrix} 1, 0, 0, 0, 0, 0 \end{pmatrix} \\
+         w^{3_2} = \begin{pmatrix} 0, 0, 0, 0, 0, 3 \end{pmatrix}
+       \end{cases} $
+       here
+      $\begin{cases}
+         u^{1_1} = \begin{bmatrix} 3, 0, 0, 0, 0, 0\end{bmatrix}^T \\
+         u^{1_2} = \begin{bmatrix} 3, 0, 0, 0, 0, 0\end{bmatrix}^T \\
+         u^{2_1} = \begin{bmatrix} 0, 4, 4, 2, 0, 0\end{bmatrix}^T \\
+         u^{2_2} = \begin{bmatrix} 0, 4, 4, 2, 0, 0\end{bmatrix}^T \\
+         u^{3_1} = \begin{bmatrix} 0, 2, 2, 0, 1, 1\end{bmatrix}^T \\
+         u^{3_2} = \begin{bmatrix} 0, 2, 2, 0, 1, 1\end{bmatrix}^T
+       \end{cases} $
+
+      \item Normalization revision: Divide by its size, we get
+      $\begin{cases}
+         w^{1_1} = \begin{pmatrix} 0, 1, 0, 0, 0, 0 \end{pmatrix} \\
+         w^{1_2} = \begin{pmatrix} 0, 0, 0, 0, 1, 0 \end{pmatrix} \\
+         w^{2_1} = \begin{pmatrix} 0, 0, 1, 0, 0, 0 \end{pmatrix} \\
+         w^{2_2} = \begin{pmatrix} 0, 0, 0, 1, 0, 0 \end{pmatrix} \\
+         w^{3_1} = \begin{pmatrix} 1, 0, 0, 0, 0, 0 \end{pmatrix} \\
+         w^{3_2} = \begin{pmatrix} 0, 0, 0, 0, 0, 1 \end{pmatrix}
+       \end{cases} $
+    \end{itemize}
+
+
+    \item Since everything is liked by someone (The goods that no one likes are eliminated), and an edge from i to j means agent i likes item j, there is non-zero indegree.
+  \end{itemize}
+
+  \paragraph{Q1.3:}
+  \hfill \break
+  In "Linear Utility Market", the goods are initialely distributed to the agents, but they don't have endowment of money.
+
+  In "Fisher Market", there is a seller who owns all the goods, but the agents have endowment of money to buy the goods.
+\end{answer}
+
+\end{document}

@@ -21,13 +21,72 @@
 \maketitle
 
 \section{Linear Utility Market Equilibrium}
-\paragraph{Linear Utility Market Agents}
-\paragraph{Linear Market Equilibrium}
-\paragraph{Nomalization}
-\paragraph{Simplification:Linear Utility Market Agents}
-\paragraph{Demand Graph}
+\begin{itemize}
+  \item The elements of "Linear Utility Market" :
+  \begin{itemize}
+    \item $m$ agents with initial endowment $w$
+    \item $n$ goods
+    \item utility vector $u$
+    \item Price vector $p$
+  \end{itemize}
 
-\section{Convex Programming Solution In Fisher Market}
+  \item Linear Market Equilibrium
+  \begin{itemize}
+    \item Budget constraint for agents
+    \item Individual optimality
+    \item Market clearance
+  \end{itemize}
+
+  \item Nomalization
+  \begin{itemize}
+    \item Everything is owned by someone
+    \item Everything is liked by someone
+    \item Each item is of unit size.
+  \end{itemize}
+
+  \item Atomatization
+  \begin{itemize}
+    \item Every agent owns one item
+    \item Every item is owned by one agent.
+    \item Each item is of unit size.
+  \end{itemize}
+
+  \item Demand Graph : Non-zero indegree
+  \begin{itemize}
+    \item V: Each item with associated agent is a node
+    \item E: An edge from $i \in V$ to $j \in V$ if agent $i$ likes item $j$.
+    \item Edge weight $u{ij} : u_i(x) = \sum_{ij)\in out(i)} u_{ij} x_{ij}$
+  \end{itemize}
+
+\end{itemize}
+
+\section{Linear Utility Fisher Market}
+\begin{itemize}
+  \item The elements of "Linear Utility Market" :
+  \begin{itemize}
+    \item $m$ agents with initial endowment $m$
+    \item $n$ goods
+    \item utility vector $u$
+    \item Price vector $p$
+  \end{itemize}
+
+  \item Linear Market Equilibrium
+  \begin{itemize}
+    \item Budget constraint for agents
+    \item Individual optimality
+    \item Market clearance
+  \end{itemize}
+
+  \item Eisenberg-Gale’s Program for Fisher Market
+  \begin{itemize}
+    \item $max \sum_i m_ilogu_i$
+    \item $ \forall i:u_i \leq \sum_j u_j^ix_j^i$
+    \item $ \forall \sum_i x_j^i \leq 1$
+    \item $ \forall x_i \geq 0$
+    \item construct the Lagrangian to solve the problem.
+  \end{itemize}
+
+\end{itemize}
 
 
 \end{document}
