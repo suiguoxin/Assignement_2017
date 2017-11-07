@@ -22,7 +22,32 @@
 \maketitle
 \section{Problem 1}
 \begin{answer}
-  Assume that the total size of the cake is 1. Denote the physical size of the pieces by $x_1, x_2, x_3$. Since $x_1 + x_2 + x_3 = 1 $and all $x_i \geq 0$, the solution space is just a triangle. Assign the three people as A,B,C, then we can a traingle where each elementary triangle is an ABC triangle, the A, B, C present the "ownership" of the vertice. A similar triangulation of finer mesh can also be labelled in this way.
+  Assume that the total size of the cake is 1. Denote the physical size of the pieces by $x_1, x_2, x_3$. Since $x_1 + x_2 + x_3 = 1 $and all $x_i \geq 0$, the solution space S is just a triangle. Assign the three people as A,B,C, then we can a traingle where each elementary triangle is an ABC triangle, the A, B, C present the "ownership" of the vertice. A similar triangulation of finer mesh can also be labelled in this way.
+
+  \begin{figure}[h]
+   \includegraphics[scale=0.6]{triangle}
+\end{figure}
+
+We obtain a new auxiliary labelling of the triangulation by 1’s, 2’s, and 3’s by
+doing the following: since each point in the triangle corresponds to a set of cuts of
+cake, go to each vertex, and ask the owner of that vertex, “Which piece would you
+choose if the cake were cut with this cut-set?” Label that vertex by the number
+of the piece that is desired.
+
+Since no one would ever choose an empty piece, each side of $S$ is missing one label corresponding to the piece
+that is empty. Hence the Sperner labelling condition is satisfied.
+
+By Sperner’s lemma, there must be a (1, 2, 3)-elementary simplex in the triangulation.
+This means that we have found 3 very similar cut-sets in which different people choose different
+pieces of cake.
+
+Carry out this procedure for a sequence of finer and finer triangulations,
+each time yielding smaller and smaller (1, 2, 3)-triangles. By compactness of the
+triangle and decreasing size of the triangles, there must be a convergent subsequence
+of triangles converging to a single point. Such a point corresponds to a
+cut-set in which the players are satisfied with different pieces.
+
+
 \end{answer}
 \section{Problem 2}
 \begin{answer}
@@ -305,7 +330,7 @@ So we have a mixed strategy equilibrium.
   These differences lead to future differences in market clearance and budget constraints.
 \end{answer}
 
-\section{Problem 1}
+\section{Problem 4}
 \begin{answer}
   \begin{itemize}
     \item Bidder 1 get q1 and bidder 2 get q2, \\
