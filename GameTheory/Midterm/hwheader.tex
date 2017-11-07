@@ -1,0 +1,168 @@
+\documentclass[11pt,twoside]{article}
+\usepackage[nonamelimits]{amsmath}
+\usepackage{amssymb, amsthm}
+
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headheight}{0.5 in}
+\setlength{\headsep}{0.5 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%%% SHORTHAND
+\def\bx{\mathbf{x}}
+\def\eps{\varepsilon}
+
+%%% SETS
+\newcommand\Z{\mbox{$\mathbb Z$}}
+\newcommand\N{\mbox{$\mathbb N$}}
+\newcommand\R{\mbox{$\mathbb R$}}
+\newcommand\F{\mbox{$\mathbb F$}}
+\def\B{\{0,1\}}
+\def\cond{\mid}
+
+%%% FUNCTIONS
+\providecommand\floor[1]{\lfloor#1\rfloor}
+\providecommand\ceil[1]{\lceil#1\rceil}
+\providecommand\blog[1]{\log_2\ceil{#1}}
+\providecommand\abs[1]{\lvert#1\rvert}
+\providecommand\bigabs[1]{\bigl\lvert#1\bigr\rvert}
+
+\def\xor{\oplus}
+\def\implies{\Rightarrow}
+\def\impl{\Longrightarrow}
+
+\def\poly{\mathrm{poly}}
+\def\polylog{\mathrm{polylog}}
+
+%%% OPERATORS
+\DeclareMathOperator\E{E}                 % expectation
+\DeclareMathOperator\var{Var}             % variance
+\DeclareMathOperator\pr{Pr}               % probability
+\DeclareMathOperator\supp{Supp}           % support
+\DeclareMathOperator\sgn{sign}            % sign
+
+\newcommand\ip[1]{\langle#1\rangle}
+
+\DeclareMathOperator\sd{sd}               % statistical distance
+\def\lone{\ell_1}
+\def\ltwo{\ell_2}
+
+%%% COMPLEXITY CLASSES
+\def\bptime{{\rm BPTIME}}
+\def\zptime{{\rm ZPTIME}}
+\def\dtime{{\rm DTIME}}
+\def\ntime{{\rm NTIME}}
+\def\size{{\rm SIZE}}
+
+\def\p{{\rm P}}
+\def\np{{\rm NP}}
+\def\zpp{{\rm ZPP}}
+\def\bpp{{\rm BPP}}
+\def\pspace{{\rm PSPACE}}
+\def\lspace{{\rm L}}
+\def\exptime{{\rm EXP}}
+\def\rp{{\rm RP}}
+\def\am{{\rm AM}}
+\def\ph{{\rm PH}}                         % polynomial hierarchy
+
+\def\co{{\rm co}}
+\def\avg{{\rm Avg}}
+\def\heur{{\rm Heur}}
+
+%%% OTHER COMPLEXITY THINGS
+\def\pcomp{\mbox{\sc PComp}}              % computable ensembles
+\def\psamp{\mbox{\sc PSamp}}              % samplable ensembles
+
+\def\calD{\mathcal{D}}                    % distribution
+\def\calU{\mathcal{U}}                    % uniform distributions
+
+\def\bh{{\rm BH}}                         % bounded halting
+\def\ubh{U^{\mathrm{BH}}}                 % uniform bounded halting
+\def\calubh{\mathcal{U}^{\mathrm{BH}}}
+\def\sat{{\rm SAT}}                       % satisfiability
+\def\trisat{{\rm 3SAT}}                   % 3sat
+
+%%% THEOREM TYPE ENVIRONMENTS
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{exercise}{Exercise}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+%%% PSEUDOCODE ENVIRONMENT
+\newenvironment{pseudocode}{
+	\vspace{-\baselineskip}
+  \begin{tabbing}
+  \qquad\=\qquad\=\qquad\=\qquad\=\qquad\=\qquad\= \\}{
+  \end{tabbing}}
+
+%%% HEADINGS
+\newcommand{\homework}[1]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \classname \hfill Homework #1 \\
+   \instname \hfill \mbox{due \duedate}
+   \rule{6.5in}{0.5mm}
+   \vspace*{-0.1 in}
+}
+
+\newcommand{\midterm}{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \classname \hfill Midterm Exam \\
+   \instname \hfill \mbox{due \duedate}
+   \rule{6.5in}{0.5mm}
+   \vspace*{-0.1 in}
+}
+
+\newcommand{\final}{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \classname \hfill Final Exam \\
+   \instname \hfill \mbox{on \duedate}
+   \rule{6.5in}{0.5mm}
+   \vspace*{-0.1 in}
+}
+
+\newcommand{\solutions}[1]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{page}{1}
+   \noindent
+   \classname \hfill Homework #1 Solutions \\
+   \instname \hfill \\
+   \rule{6.5in}{0.5mm}
+   \vspace*{-0.1 in}
+}
+
+\newcommand{\problem}[1]{\section*{Problem #1}}
+\newcommand{\solution}{\section*{Solution}}
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})} 
+
+%%% DEFINITIONS
+\def\instname{Shanghai Jiao Tong University}
+\def\classname{CS228: Game Theoretical Methodology and Technique for Internet Protocols}
+
+%%% INSTRUCTIONS
+\raggedbottom
