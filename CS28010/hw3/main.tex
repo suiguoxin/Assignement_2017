@@ -1,0 +1,173 @@
+\documentclass[20pt]{article}
+
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{color}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Homework Details
+%
+
+\newcommand{\hmwkDueDate}{Nov. 22nd, 2017}
+\newcommand{\hmwkClass}{CS28010}
+\newcommand{\hmwkClassInstructor}{Prof. Xu Lei}
+\newcommand{\hmwkAuthorName}{Li Hao}
+\newcommand{\hmwkTitle}{Homework 3}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor)}
+\rhead{\hmwkTitle}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Various Helper Commands
+%
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\normalsize Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+\newcommand{\I}{\mathbf{I}}
+\newcommand{\A}{\mathbf{A}}
+\newcommand{\x}{\mathbf{x}}
+
+\title{\hmwkClass:\ \textbf{\hmwkTitle}}
+\date{\hmwkDueDate}
+\author{\hmwkAuthorName}
+
+\begin{document}
+
+\maketitle
+
+\section*{1 Factor analysis}
+ \subsection*{1.1 Linear factor analysis}
+ {\color{blue} We denote the observed data as x, the latent factor as $y$ and the error as $\epsilon$. Suppose $y \sim N(y|\mu,\Lambda)$, $\epsilon \sim N(\epsilon|0, \Sigma)$ and $x = Ay + \epsilon$, where $A$ is an $n \times m$ matrix, $n$ is the dimension of $x$, $m$ is the dimension of $y$ and $m < n$. Please explain why there is more than one solution that satisfy $E(xx^T) = A\Lambda A^T + \Sigma$. When $\Sigma$ is not a general positive definite matrix, but a diagonal matrix, how many solution exists? And if $\Sigma = \sigma^2\I$, how many solution exists?
+ } \\
+ \solution \\
+ There are 4 uncertainties in factor analysis model:
+ \begin{itemize}
+     \item \textbf{rotation uncertainty}: since the covariance matrix $\Lambda$ of $y$ is diagonal, there is no rotation uncertainty for $y$.
+     \item \textbf{scale uncertainty}: $y \sim N(y|\mu,\Lambda)$, which means $y\in \mathbb{R}^m$. Hence there are always scale uncertainty for $y$.
+     \item \textbf{addition uncertainty}: when $\Sigma$ is a general positive definite matrix or a diagonal matrix, there exists addition uncertainty. But there is no addition uncertainty when $\Sigma = \sigma^2\I$.
+     \item \textbf{dimension uncertainty}: as the dimension of $y$ is $m$, there is no dimension uncertainty.
+ \end{itemize}
+ Even if assuming $\Sigma = \sigma^2\I$ can cancel the \textbf{addition uncertainty}, there still exist \textbf{rotation uncertainty} and \textbf{scale uncertainty} in $A\Lambda A^T$. So there are always multiple solutions for all cases.
+
+ \subsection*{1.2 Binary factor analysis}
+ {\color{blue} If $y$ is a latent factor where each dimension is an independent variable that subjects to a different Bernoulli distribution, what are the answers to the above three questions?\
+ } \\
+ \solution \\
+ If $y_i$ subjects to Bernoulli distribution, then for each dimension of $y$,
+ $$y_i \in \{0, 1\}$$
+ Hence there are no longer exists \textbf{rotation uncertainty} and \textbf{scale uncertainty}, since either rotate matrix or scale matrix will cause $y_i\notin \{0, 1\}$.
+ Therefore,
+ \begin{itemize}
+     \item if $Sigma$ is not a general positive definite matrix, but a diagonal matrix, there still are \textbf{addition uncertainty}. So there are multiple solutions.
+     \item if $\Sigma = \sigma^2\I$, there are no uncertainty. Hence we can get the only one solution.
+ \end{itemize}
+
+
+ $$\begin{bmatrix}
+                    \alpha_1^T \\
+                    \alpha_2^T \\
+                    \vdots \\
+                    \alpha_k^T \\
+                \end{bmatrix}$$
+\section*{2 Projection}
+ \subsection*{2.1 Orthogonal projection}
+ {\color{blue} Suppose we have a hyperplane whose orthogonal basis are $\alpha_1, \alpha_2, \cdots , \alpha_k, k < n$. Now we have a n-dimensional vector $\x$ and we want to apply an orthogonal projection on the hyperplane. Please compute the corresponding projection matrix $P$.
+ } \\
+ \solution \\
+ Assuming all vector is cloumn vector($v^T = [v_1, v_2, \cdots, v_n]$)\\
+
+ Denote $\A = [\alpha_1, \alpha_2, \cdots, \alpha_k]$ is a $n\times k$ matrix. Denote the orthogonally projected vector as $\hat{\x}$. \\
+ Since we have $\alpha_i^T(\x - \hat{\x})=0$, then
+ \begin{eqnarray*}
+    \A^T(\x-\hat{\x}) &=& \textbf{0} \\
+    \A^T \x &=& \A^T \hat{\x}
+ \end{eqnarray*}
+ we also have that
+ $$\hat{\x} = c_1\alpha_1 + c_1\alpha_2 + \cdots + c_k\alpha_k = \A \begin{bmatrix}
+                                                                        \alpha_1^T \\
+                                                                        \alpha_2^T \\
+                                                                        \vdots \\
+                                                                        \alpha_k^T \\
+                                                                      \end{bmatrix} = \A\mathbf{c}$$
+ Hence,
+ \begin{eqnarray*}
+    \A^T \x &=& \A^T \hat{\x} \\
+    &=& \A^T\A\mathbf{c}
+ \end{eqnarray*}
+ so we get $\mathbf{c} = (\A^T\A)^{-1}\A^T\x$
+ Then $$\hat{\x} = \A(\A^T\A)^{-1}\A^T\x$$
+ Therefore, the corresponding projection matrix $\mathbf{P}$ is:
+ $$\mathbf{P} = \A(\A^T\A)^{-1}\A^T$$
+
+\section*{3 Clustering}
+ \subsection*{3.1 Comparison between Gaussian mixture model and k-means}
+ {\color{blue} Please add constraints to Gaussian mixture model so that it degenerates into k-means algorithm.
+ } \\
+ \solution \\
+ The constraint is that: the covariance matrices of the K mixture components in GMM are:
+ $$\Sigma_1 = \Sigma_2 = \cdots = \Sigma_k = \sigma^2\I\text{ and } \sigma^2\rightarrow 0$$
+ Then the distribution of the k-th component can be written as:
+ $$p(\x|\mu_k,\Sigma_k) = \frac{1}{\sqrt{2\pi}\sigma} \exp \big\{-\frac{1}{2\sigma^2} ||\x-\mu_k||^2\big\}$$
+ And consider the EM algorithm for a mixture of K Gaussians of this form.\\
+ \\
+ In the expectation step:
+ $$\gamma_{nk} = p(z_n=k|\x_n,\mu,\Sigma,\pi) = \frac{\pi_k\exp\{-||\x_n-\mu_k||^2/2\sigma\}}{\sum_i \pi_i \exp\{-||\x_n-\mu_i||^2/2\sigma\}}$$
+ if $\sigma^2\rightarrow 0$, then
+ $$\gamma_{nk}=r_{nk} \rightarrow \begin{cases} 1 & \text{if } k=\text{arg min}_i ||\x_n-\mu_i||^2 \\ 0 & \text{otherwise}\end{cases}$$
+ which is a nearly hard assignments just like k-means algorithm.\\
+ \\
+ In the maximization step:
+ $$\mathbb{E}_{\mathbf{Z}}[\ln p(\mathbf{X},\mathbf{Z}|\mu,\Sigma,\pi)] \rightarrow -\frac{1}{2}\sum_{n=1}^N \sum_{k=1}^K \gamma_{nk} ||\x_n-\mu_k||^2 + const$$
+ which is also almost same as the maximization step in the k-means algorithm which maximize:
+ $$\mathbf{J} = \sum_{n=1}^N \sum_{k=1}^K r_{nk}||\x_n-\mu_k||^2$$
+ Therefore, in the given constraint above, Gaussian mixture model degenerates into kmeans
+ algorithm.
+
+\section*{4 Optional summary work}
+ \textbf{Note: this is an optional homework.} Please compare PCA, FA and ICA. \\
+ \solution \\
+
+
+\end{document}
