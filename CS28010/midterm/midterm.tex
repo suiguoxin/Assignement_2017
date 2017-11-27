@@ -47,7 +47,13 @@
 \end{enumerate}
 
 \begin{answer}
-  There are
+\begin{enumerate}[(a)]
+    \item Hubel和Wiesel等通过对猫的大脑视觉皮层系统的研究，发现了视觉皮层通路中特定的神经元对特定方向的直线敏感，还有一些神经元对复杂的模式敏感，进而推断出视觉皮层先发现简单信息，然后组合为复杂模式的信息的分层处理机制。
+    \item Marr从信息处理系统的角度出发，认为视觉系统的研究应分为三个层次，即计算理论层次、表达与算法层次、硬件实现层次 \\
+    计算理论层次要回答系统各个部分的计算目的与计算策略，亦即各部分的输入输出是什么，之间的关系是什么变换或者具有何种约束。Marr 对视觉系统的总的输入输出关系规定了一个总的目标，即输入二维图像，输出是由二维图像"重建"（reconstruction）出来的三维物体的位置与形状。\\
+    对于表达与算法层次，视觉系统的研究应给出各部分（模块）的输入、输出和内部的信息表达，以及实现计算理论所规定的目标的算法。\\
+    硬件层次:是要回答"如何用硬件实现以上的算法"。
+\end{enumerate}
 \end{answer}
 
 \section{（回归分析）感知机perceptron}
@@ -70,8 +76,21 @@
 值为$0$。现有一个单位长向量$w$。$x_i$沿着向量$a_i$在$w$上的投影为$\hat{x_i}$}
 \begin{enumerate}[(a)]
     \item 请写出$\hat{x_i}$关于$x_i, a_i$和$w$的表达式
-    \item 求出使 $\Sigma_{i=1}^n||\hat{x}-x_i||$最小的$a_i$和$w$
+    \item 求出使 $\Sigma_{i=1}^n||\hat{x}-x_i||^2$最小的$a_i$和$w$
 \end{enumerate}
+
+\begin{answer}
+\begin{enumerate}[(a)]
+    \item 由题意知$\hat{x_i}$的方向为$w$，可以设$\hat{x_i}=kw$。
+    设$a_i = \hat{x_i} - x_i$，即$\hat{x_i}, x_i, a_i$ 恰好是一个三角形的三条边，则$\hat{x_i} = a_i + x_i$
+    \item 令$J = \sum_{i=1}^n||\hat{x_i} - x_i||^2 = \sum_{i=1}^n(k_i w_i-x_i)^T(k_i w_i-x_i)$ \\
+        令$\frac{\partial J}{\partial k_i} = 0$，得到$k_i=w^Tx_i$，可知$\hat{x_i}$是$x_i$的正交投影。\\
+        因为$w$是单位向量，故满足$w^Tw=1$，\\
+        所以可以构造拉格朗日算子$L = \sum_{i=1}^n(k_i w_i-x_i)^T(k_i w_i-x_i) - \lambda(w^Tw-1)$
+        令$\frac{\partial L}{\partial w} = 0$，得到$\Sigma w = \lambda w$， 这里$\Sigma$是X的协方差矩阵。\\
+        可知$w$为特征向量，$\lambda$为特征值，$w$取最大的特征值对应的特征向量的时候$\Sigma_{i=1}^n||\hat{x}-x_i||^2$最小。
+\end{enumerate}
+\end{answer}
 
 \section{（高斯分布)
 $G(x|\mu_x, \sigma^2I) = \frac{1}{(2\pi)^{d/2}\sigma d}exp{(-\frac{1}{2\sigma^2} (x - \mu_x)^T(x - \mu_x)}$，
@@ -114,8 +133,19 @@ $X$和$y$之间满足$x = By$}
 \begin{answer}
 \begin{enumerate}[(a)]
     \item 根据贝叶斯定理， $P(c|x)=\frac{P(c)P(x|c)}{P(x)}$，其中$P(c)$是分类为$c$的先验概率， $P(x|c)$是给定类标记后样本$x$的条件概率。Bayesian classification 就是根据这个公式，基于训练数据估计$P(c)$和$P(x|c)$，进而求出后验概率$P(c|x)$。
-    \item Fisher discriminant	analysis
-    \item 它们的区别
+    \item
+    费舍尔两类分布的规则为类间方差与类内方差的比率
+    $S=\frac{\sigma_{between}^2}{\sigma_{within}^2} = \frac{(w\mu_1-z\mu_0)^2}{w^T\Sigma_1 w + w^T\Sigma_0 w}$,
+    其中$\mu_0, \mu_1, \Sigma_0, \Sigma_1$分别为两个中心的均值和方差，$wx$是特征的线性组合。\\
+    Fisher discriminant	analysis就是根据这个公式，进行投影，将原来一个维度空间的自变量组合投影到另一维度空间，寻找一个由原始变量组成的线性函数使得组间差异和组内差异的比值最大化。
+    \item
+1. 原理不同\\
+Bayesian classification是是利用已知的先验概率去推证将要发生的后验概率，就是计算每个样本的后验概率及其判错率，用最大后验概率来划分样本的分类并使得期望损失达到最小 \\
+Fisher discriminant	analysis是根据方差分析思想，利用投影使组间差异和组内差异的比值最大化。根据样本点计算判别函数，计算判别函数到各类中心的欧式距离，取距离最小的类别。\\
+2. 前提条件不同:\\
+Fisher discriminant	analysis不考虑样本的具体分布，只求组间差异和组内差异的比值最大化 \\
+Bayesian classification从样本的多元分布出发，充分利用多元正态分布的概率密度提供的信息计算后验概率，因此需要样本数据服从多元正态分布，方差齐性等。\\
+
 \end{enumerate}
 \end{answer}
 
@@ -131,41 +161,82 @@ $X$和$y$之间满足$x = By$}
 定义$A$ 是一个$n \times m$的矩阵, $n$是$x$的维数, $m$是$y$的维数，$m < n$
 \begin{enumerate}[(a)]
 \item scale不确定性: y服从于一个m维的高斯分布，均值与方差的scale都不确定，并且可以随着$A$的scale做出相应调整，存在scale不确定性
-\item rotation不确定性：若不对y做特殊限制，y可以旋转，存在rotation不确定性
+\item rotation不确定性：若不对y的方差做特殊限制，那么y可以旋转，存在rotation不确定性
 \item additive不确定性:考虑$Ay$与$e$的值的分配，二者的尺度都不确定时，additive不确定性存在
 \item dimension不确定性：y的维度m不确定，存在dimension不确定性
-\item 若 factor y 的分布从高斯分布变成二项分布,scale不确定性，rotation不确定性，dimension不确定性消失,只有additive不确定性。
+\item 若 factor y 的分布从高斯分布变成二项分布,scale不确定性，rotation不确定性，消失只有dimension不确定性和additive不确定性。
 \end{enumerate}
 \end{answer}
 
 \section{（最小平方聚类)}
 \begin{enumerate}[(a)]
     \item 用自己的语言结合公式解释什么是最小平方聚类
-    \item 最小平方聚类有三个无法解决的问题,它们分别是什么?为什么会存在?
-    \item 就 k-­‐means 算法而言,在计算条件允许的情况下,给定类别数 k,如何求最优聚类?
+    \item 就最小平方聚类而言,在计算条件允许的情况下,给定类别数 k,如何求最优聚类?
+    \item k-­means 有三个无法解决的问题,它们分别是什么?为什么会存在?
     \item 但是因为代价太高,一般会使用近似算法来求局部最优解。请用 EM 的思路来解释这个近似求解算法。(需要公式推导过程)
 \end{enumerate}
 \begin{answer}
 \begin{enumerate}[(a)]
 \item 给定样本集${x_i}, i = 1,..., m$, 聚类后获得簇划分${C_i, i = 1,..., k}$， 最小平方聚类方法最小化平方误差
-$E = \sum_{i=1}^k\sum_{x\in C_i}||x-\mu_i||_2^2$，E值越小簇內样本相似度越高。
+$E = \sum_{i=1}^k\sum_{x\in C_i}||x-\mu_i||_2^2$，E值越小，簇內样本相似度越高。
+\item 每一个数据点的分类有$k$种，所有点的分类有$k^m$种，计算所有情况的平方误差，取最优解
 \item \begin{itemize}
-  \item 必须事先给出K，而且对初值敏感，对于不同的初始值，结果可能不同
-  \item 只能发现球状Cluster，不适合于发现非凸形状的簇或者大小差别很大的簇
+  \item 必须事先给出K，而且对初值敏感，对于不同的初始值，可能会求出不同的局部最优解
+  \item 只能发现球状簇，不适合于发现非凸形状的簇或者大小差别很大的簇
   \item 对噪声和孤立点数据敏感，如簇中含有异常点，将导致均值偏离严重。
 \end{itemize}
-\item 每一个数据点的分类有$k$种，所有点的分类有$k^m$种，计算所有情况的平方误差，取最优解
 \item 假定样本以各自的簇为中心满足高斯分布，则可以使用EM混合高斯模型。根据EM算法，\begin{itemize}
   \item 选择初始的K个类别中心${\mu_i}, i = 1,..., k$
-  \item M-step: $\theta := arg max\sum_i\sum_{c^i}log\frac{p(x_i,c_i;\theta)}{Q_i(c^i)}$ \\
-  将软分类退化为硬分类，则有 $c_i := arg max(p(x_i,c_i;\theta))$ \\
+  \item E-step: $Q_i(c^i) = p(c_i|x_i,\theta)$ \\
+  将软分类退化为硬分类，则有 $c_i := arg max(p(c_i|x_i;\theta))$ \\
   不考虑高斯分布方差，则有 $c_i := arg min||x_i - \mu_i||^2$  \\
   即对于每个样本$x_i$，将其标记为距离类别中心最近的类别
-  \item E-step: $Q_i(c^i) = p(c_i|x_i,\theta)$ \\
-  将软分类退化为硬分类后，不考虑概率，更新簇中心为 $\mu_j := \frac{\sum_{i=1}^m{c_i=j}x_i}{\sum_{i=1}^m{c_i=j}}$ \\
+  \item M-step: $\theta := arg max\sum_i\sum_{c^i}log\frac{p(x_i,c_i;\theta)}{Q_i(c^i)}$ \\
+  根据上步结果，更新簇中心为 $\mu_j := arg max\sum_i log{p(x_i,c_i;\theta)} = \frac{\sum_{i=1}^m{c_i=j}x_i}{\sum_{i=1}^m{c_i=j}}$ \\
   \item 重复前两步，直到类别中心的变化小于某阈值或者达到最大迭代次数
 \end{itemize}
 \end{enumerate}
+\end{answer}
+
+\section{（内向和外向理论)}
+\begin{enumerate}[(a)]
+    \item 请用自己的语言解释 best abstraction(最佳抽象)和 best	reconstruction(最佳重建)理论
+    \item 请使用最佳抽象和最佳重建理论从两个不同角度解释主成分分析(principal component analysis)(需要公式推导过程)
+\end{enumerate}
+\begin{answer}
+\begin{enumerate}[(a)]
+    \item 最佳抽象：原始数据高维无序，剔除无关特征保留主要特征实现数据降维而不丢失信息，即信息之最佳保持。\\
+最佳重建：利用原始数据的主要特征建立误差最小的数学模型。
+    \item 给定样本集${x_i}, i = 1,..., n$, 将$x_i$投影到$w$方向上为$\hat{x_i}$。\\
+    按照最佳抽象理论，需要最大化保持数据差异，即$w=arg max\sum_{i=1}^n(x_i^Tw - \mu_x^Tw)^2$。\\
+    不失一般性，令$x_i=x_i-\mu_x$，
+    则$w=arg max\sum_{i=1}^n(x_i^Tw)^2 = arg max w^T\left(\sum_{i=1}^n(x_i^T)^2\right)w$
+    $w$取最大的特征值对应的特征向量的时候目标获得最大值。PCA将n维的x变成了k维的y实现了数据降维且不丢失信息\\
+
+    按照最佳重建理论,需要最小化误差，即\begin{align*}
+      w &= arg min\Sigma_{i=1}^n||\hat{x_i}-x_i||^2 \\
+        &= arg max - \Sigma_{i=1}^n||\hat{x_i}-x_i||^2 \\
+        &= arg max \Sigma_{i=1}^n\left(||x_i||^2 - ||\hat{x_i}-x_i||^2 \right)\\
+        &= arg max \Sigma_{i=1}^n(x_i^Tw)^2 \\
+    \end{align*}
+    随后与之前BA方法的求解方法一致，并有相同解。PCA用k维的y表示n维的x保留了数据的主要特征。
+\end{enumerate}
+\end{answer}
+
+\section{（附加题)请用自己的语言结合例子解释五行理论(A5)对日常科研学术的启发}
+\begin{answer}
+五行理论(A5):\\
+对于一个通用问题的解决,其过程往往可以用五个主要机制的循环来表达:
+A-1 (Acquisition) : 获取数据
+A-2 (Assumption): 基于 A-1 的结果来对内在表达作出一或多个假设
+A-3 (Amalgamation): 分配和更新支持这些候选的证据
+A-4 (Apex-seeking): 根据这些证据决定一或多个最好的候选
+A-5 (Affirmation): 通过测试样例来评估这些候选, 并作出最终的肯定
+这五个行为顺序循环进行, 并且遵循各自内部的规则, 具有相对独立性.
+
+对日常科研的启发 \\
+在实验过程中，通常我们初步实现一个模型后，结果会有不同的问题。解决问题的有效方法是分析问题可能的原因，从源头去解决。\\
+例如，我们用随机森林去实现二分类算法，按照A5理论，A1过程进行得不好会直接影响A2的进行，A4过程如果进行得过深就会导致常见的过拟合问题，需要A5来抑制A4过程的过分展开。这些相互依存关系正类似于五行理论中的”生克乘晦”，通过调整”克” 顺序中前一个元素来使其趋向于平衡的状态。此例中，如果A5中的准确率过低，可能需要调整A4训练参数；A3的结果不好处理，可能是A1过程中留下的必然因素。
 \end{answer}
 
 \end{document}
