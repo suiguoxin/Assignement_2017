@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{geometry, setspace, graphicx, enumerate}
+\usepackage{listings}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\setlength\parindent{0pt}
+\newenvironment{answer}{\par\color{ForestGreen}}{\par}
+
+\title{CS28010 Question for Final}
+\author{Guoxin SUI}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Multivariate least squares}
+
+Given a training set with mulitple outputs for each example:
+$$\{(x^{(i)}, y^{(i)}), i= 1,...,m\}; x^{(i)} \in \mathbb{R}^n; y^{(i)} \in \mathbb{R}^p $$
+Similar to linear regression, to use a linear model to predict the outputs:
+$y = \Theta^Tx$, where $\Theta \in \mathbb{R}^{n*p}$.
+We define the cost function as
+$$J(\Theta) = \frac{1}{2}\sum_{i=1}^m\sum_{j=1}^p\left((\Theta^Tx^{(i)})_j - y_j^{(i)}\right)^2$$
+Write $J(\Theta)$ in matrix-vector notation and find the closed form solution for $\Theta$ which minimizes $J(\Theta)$
+\begin{answer}
+Answer: \\
+The objective function can be expressed as $$J(\Theta) = \frac{1}{2}tr\left((X\Theta - Y)^T(X\Theta - Y)\right)$$
+The closed form is $$\Theta = (X^TX)^{-1}X^TY$$where $Y\in \mathbb{R}^{m*p}$. This is quite similar to the case in univariate case.
+\end{answer}
+
+\end{document}
